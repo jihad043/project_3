@@ -1,57 +1,22 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tailwind Clock</title>
-  <!-- Tailwind Play CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Button Example</title>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-slate-100 p-6">
-  <main class="w-full max-w-md bg-white/3 backdrop-blur-lg border border-white/5 rounded-2xl shadow-2xl p-6 text-center">
-    <div class="flex items-start justify-center gap-3">
-      <div id="time" class="text-6xl sm:text-7xl font-extrabold leading-tight">00:00:00</div>
-      <div id="ampm" class="mt-4 text-sm font-semibold px-3 py-1 rounded-lg bg-sky-600/20 text-sky-300">AM</div>
-    </div>
+<body>
 
-    <p id="date" class="mt-3 text-slate-300 text-sm">January 1, 1970 — Thursday</p>
+    <h2>Simple Form Example</h2>
 
-    <div class="mt-4 flex justify-center gap-3 flex-wrap">
-      <span id="tz" class="text-xs text-slate-300 bg-white/2 px-3 py-1 rounded-md border border-white/4">Local Time</span>
-      <span id="weekday" class="text-xs text-slate-300 bg-white/2 px-3 py-1 rounded-md border border-white/4">Weekday</span>
-      <span id="secondsLabel" class="text-xs text-slate-300 bg-white/2 px-3 py-1 rounded-md border border-white/4">Seconds</span>
-    </div>
-  </main>
+    <form method="post">
+        {% csrf_token %}
 
-  <script>
-    function updateClock(){
-      const now = new Date();
-      let h = now.getHours();
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      let hour12 = h % 12;
-      if (hour12 === 0) hour12 = 12;
+        {{form.as_p}}
+        
 
-      const hh = String(hour12).padStart(2,'0');
-      const mm = String(now.getMinutes()).padStart(2,'0');
-      const ss = String(now.getSeconds()).padStart(2,'0');
+        <button type="submit">Submit</button>
+    </form>
 
-      document.getElementById('time').textContent = `${hh}:${mm}:${ss}`;
-      document.getElementById('ampm').textContent = ampm;
-
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      const dateStr = now.toLocaleDateString(undefined, options);
-      const weekday = now.toLocaleDateString(undefined,{ weekday: 'long' });
-      document.getElementById('date').textContent = `${dateStr} — ${weekday}`;
-
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
-      document.getElementById('tz').textContent = tz;
-      document.getElementById('weekday').textContent = weekday;
-      document.getElementById('secondsLabel').textContent = `${ss} sec`;
-    }
-
-    updateClock();
-    setInterval(updateClock, 1000);
-  </script>
 </body>
 </html>
